@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AirWatch — Air Quality Dashboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+    <header class="hero">
+        <div class="hero-badge">Live Air Quality Intelligence</div>
+        <button id="themeToggle" class="theme-toggle">🌙 Dark</button>
+        <h1>AirWatch</h1>
+        <p>Search any city or village on Earth for real-time air quality</p>
+
+        <div class="search-box">
+            <input type="text" id="placeInput" placeholder="Try 'Kakinada' or 'Paris'..." />
+            <button id="searchBtn">Search</button>
+        </div>
+        <p id="errorMsg" class="error"></p>
+    </header>
+
+    <section id="resultCard" class="result-card hidden">
+        <h2 id="placeName"></h2>
+        <p id="placeRegion" class="subtext"></p>
+
+        <div class="aqi-circle" id="aqiCircle">
+            <span id="aqiValue">--</span>
+            <small>AQI</small>
+        </div>
+        <p class="status" id="aqiStatus"></p>
+        <p class="advice" id="aqiAdvice"></p>
+
+        <div class="pollutant-grid">
+            <div class="pollutant"><span>PM2.5</span><strong id="pm25">--</strong></div>
+            <div class="pollutant"><span>NO2</span><strong id="no2">--</strong></div>
+            <div class="pollutant"><span>SO2</span><strong id="so2">--</strong></div>
+            <div class="pollutant"><span>CO</span><strong id="co">--</strong></div>
+        </div>
+    </section>
+
+    <nav class="button-nav">
+        <a href="/trend" class="nav-box">
+            <span class="nav-icon">📈</span>
+            <span>AQI Trend</span>
+        </a>
+        <a href="/citywise" class="nav-box">
+            <span class="nav-icon">🏙️</span>
+            <span>City-wise Average</span>
+        </a>
+        <a href="/distribution" class="nav-box">
+            <span class="nav-icon">📊</span>
+            <span>AQI Distribution</span>
+        </a>
+        <a href="/downloads" class="nav-box">
+            <span class="nav-icon">⬇️</span>
+            <span>Total / CSV</span>
+        </a>
+    </nav>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+
+</html>

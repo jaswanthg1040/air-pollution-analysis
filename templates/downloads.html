@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AirWatch — Downloads</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+    <nav class="topnav">
+        <a href="/">🏠 Home</a>
+        <a href="/trend">AQI Trend</a>
+        <a href="/citywise">City-wise Average</a>
+        <a href="/distribution">AQI Distribution</a>
+        <a href="/downloads" class="active">Total / CSV</a>
+        <button id="themeToggle" class="theme-toggle">🌙 Dark</button>
+    </nav>
+
+    <section class="download-page">
+        <h2>⬇ Download All Data</h2>
+        <div class="download-grid">
+            <a href="/download/csv" class="btn big">Download CSV</a>
+            <a href="/download/excel" class="btn big">Download Excel</a>
+            <a href="/download/all-charts-pdf" class="btn big">Download All Graphs (PDF)</a>
+        </div>
+    </section>
+
+    <section class="records">
+        <h2>📋 All Searched Places</h2>
+        <div id="recordsList" class="records-list"></div>
+    </section>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+
+</html>

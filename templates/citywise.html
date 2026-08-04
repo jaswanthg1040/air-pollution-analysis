@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AirWatch — City-wise Average</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+<script src="https://cdn.plot.ly/plotly-2.32.0.min.js"></script>
+</head>
+<body>
+
+<nav class="topnav">
+  <a href="/">Home</a>
+  <a href="/trend">AQI Trend</a>
+  <a href="/citywise" class="active">City-wise Average</a>
+  <a href="/distribution">AQI Distribution</a>
+  <a href="/downloads">Total / CSV</a>
+  <button id="themeToggle" class="theme-toggle">🌙 Dark</button>
+</nav>
+
+<section class="charts single">
+  <h2>🏙️ City-wise Average AQI (drag to rotate)</h2>
+  <div class="chart-box">
+    <div id="plot3d" data-chart="citywise" style="width:100%; height:500px;"></div>
+    <a href="/download/chart-pdf/city_aqi_bar" class="btn small">⬇ Download 2D PDF</a>
+  </div>
+</section>
+
+<section class="records">
+  <h2>📋 All Searched Places</h2>
+  <div id="recordsList" class="records-list"></div>
+</section>
+
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
