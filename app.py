@@ -474,7 +474,8 @@ def download_all_charts_pdf():
     first.save(pdf_path, save_all=True, append_images=rest)
     return send_file(pdf_path, as_attachment=True)
 
+import os
 
 if __name__ == "__main__":
-    create_visualizations(load_dataset())
-    app.run(debug=True, port=5000)
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host="0.0.0.0", port=port)
