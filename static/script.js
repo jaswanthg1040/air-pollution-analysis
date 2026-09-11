@@ -11,6 +11,13 @@ document.addEventListener("DOMContentLoaded", () => {
   loadChartData();
 });
 
+function formatOneDecimal(value) {
+  if (value === null || value === undefined || value === "" || Number.isNaN(Number(value))) {
+    return "--";
+  }
+  return Number(value).toFixed(1);
+}
+
 async function searchPlace() {
   if (!input || !btn || !errorMsg || !card) return;
 
@@ -30,6 +37,7 @@ async function searchPlace() {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ place }),
     });
+
     const data = await res.json();
 
     if (!res.ok) {
@@ -41,14 +49,14 @@ async function searchPlace() {
     document.getElementById("placeName").textContent = data.place;
     document.getElementById("placeRegion").textContent =
       [data.region, data.country].filter(Boolean).join(", ");
-    document.getElementById("aqiValue").textContent = data.aqi ?? "N/A";
+    document.getElementById("aqiValue").textContent = formatOneDecimal(data.aqi);
     document.getElementById("aqiCircle").style.background = data.color;
     document.getElementById("aqiStatus").textContent = data.status;
     document.getElementById("aqiAdvice").textContent = data.advice;
-    document.getElementById("pm25").textContent = data.pm25 ?? "--";
-    document.getElementById("no2").textContent = data.no2 ?? "--";
-    document.getElementById("so2").textContent = data.so2 ?? "--";
-    document.getElementById("co").textContent = data.co ?? "--";
+    document.getElementById("pm25").textContent = formatOneDecimal(data.pm25);
+    document.getElementById("no2").textContent = formatOneDecimal(data.no2);
+    document.getElementById("so2").textContent = formatOneDecimal(data.so2);
+    document.getElementById("co").textContent = formatOneDecimal(data.co);
 
     card.classList.remove("hidden");
     loadRecords();
@@ -87,7 +95,7 @@ async function loadRecords() {
 
       const heading = document.createElement("button");
       heading.className = "record-heading";
-      heading.innerHTML = `<span>${r.city}</span><small>${r.date} · AQI ${r.aqi ?? "N/A"} · ${r.status}</small>`;
+      heading.innerHTML = `<span>${r.city}</span><small>${r.date} · AQI ${formatOneDecimal(r.aqi)} · ${r.status}</small>`;
 
       const deleteBtn = document.createElement("button");
       deleteBtn.className = "btn small danger";
@@ -107,10 +115,10 @@ async function loadRecords() {
       details.className = "record-details hidden";
       details.innerHTML = `
         <div class="pollutant-grid">
-          <div class="pollutant"><span>PM2.5</span><strong>${r.pm25 ?? "--"}</strong></div>
-          <div class="pollutant"><span>NO2</span><strong>${r.no2 ?? "--"}</strong></div>
-          <div class="pollutant"><span>SO2</span><strong>${r.so2 ?? "--"}</strong></div>
-          <div class="pollutant"><span>CO</span><strong>${r.co ?? "--"}</strong></div>
+          <div class="pollutant"><span>PM2.5</span><strong>${formatOneDecimal(r.pm25)}</strong></div>
+          <div class="pollutant"><span>NO2</span><strong>${formatOneDecimal(r.no2)}</strong></div>
+          <div class="pollutant"><span>SO2</span><strong>${formatOneDecimal(r.so2)}</strong></div>
+          <div class="pollutant"><span>CO</span><strong>${formatOneDecimal(r.co)}</strong></div>
         </div>
         <a class="btn small" href="/download/row/${r.id}">⬇ Download this row</a>
       `;
@@ -170,18 +178,22 @@ function makeBar3DTrace(items) {
       [x0, y0, 0], [x1, y0, 0], [x1, y1, 0], [x0, y1, 0],
       [x0, y0, zTop], [x1, y0, zTop], [x1, y1, zTop], [x0, y1, zTop],
     ];
+
     verts.forEach((v) => {
       allX.push(v[0]); allY.push(v[1]); allZ.push(v[2]);
       colors.push(color);
     });
+
     const faces = [
       [0, 1, 2], [0, 2, 3], [4, 5, 6], [4, 6, 7],
       [0, 1, 5], [0, 5, 4], [1, 2, 6], [1, 6, 5],
       [2, 3, 7], [2, 7, 6], [3, 0, 4], [3, 4, 7],
     ];
+
     faces.forEach((f) => {
       allI.push(f[0] + offset); allJ.push(f[1] + offset); allK.push(f[2] + offset);
     });
+
     offset += 8;
   });
 
@@ -297,6 +309,7 @@ function renderDistribution3D(data) {
 
   Plotly.newPlot(container, [trace], layout, { responsive: true });
 }
+
 // ---------- THEME TOGGLE ----------
 function applyTheme(theme) {
   document.body.classList.toggle("dark", theme === "dark");
